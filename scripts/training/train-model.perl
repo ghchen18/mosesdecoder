@@ -374,7 +374,9 @@ my $SNT2COOC;
 if ($STEPS[1] || $STEPS[2])
 {
 	if(!defined $_MGIZA ){
-		$GIZA = "$_EXTERNAL_BINDIR/GIZA++";
+		if (-x "$_EXTERNAL_BINDIR/mgiza") {
+		        $GIZA = "$_EXTERNAL_BINDIR/mgiza";
+		}
 		if (-x "$_EXTERNAL_BINDIR/snt2cooc.out") {
 			$SNT2COOC = "$_EXTERNAL_BINDIR/snt2cooc.out";
 		} elsif (-x "$_EXTERNAL_BINDIR/snt2cooc") { # Since "snt2cooc.out" and "snt2cooc" work the same
@@ -1328,11 +1330,11 @@ sub run_single_giza {
     return if  $___ONLY_PRINT_GIZA;
     safesystem("$GIZA $GizaOptions");
 
-	if (defined $_MGIZA and (!defined $___FINAL_ALIGNMENT_MODEL or $___FINAL_ALIGNMENT_MODEL ne '2')){
-		print STDERR "Merging $___GIZA_EXTENSION.part\* tables\n";
-		safesystem("$MGIZA_MERGE_ALIGN  $dir/$f-$e.$___GIZA_EXTENSION.part*>$dir/$f-$e.$___GIZA_EXTENSION");
-		#system("rm -f $dir/$f-$e/*.part*");
-	}
+    if (defined $_MGIZA and (!defined $___FINAL_ALIGNMENT_MODEL or $___FINAL_ALIGNMENT_MODEL ne '2')){
+	print STDERR "Merging $___GIZA_EXTENSION.part\* tables\n";
+	safesystem("$MGIZA_MERGE_ALIGN  $dir/$f-$e.$___GIZA_EXTENSION.part*>$dir/$f-$e.$___GIZA_EXTENSION");
+	#system("rm -f $dir/$f-$e/*.part*");
+    }
 
 
     die "ERROR: Giza did not produce the output file $dir/$f-$e.$___GIZA_EXTENSION. Is your corpus clean (reasonably-sized sentences)?"
