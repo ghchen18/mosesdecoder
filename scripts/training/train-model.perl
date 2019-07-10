@@ -376,6 +376,7 @@ if ($STEPS[1] || $STEPS[2])
 	if(!defined $_MGIZA ){
 		if (-x "$_EXTERNAL_BINDIR/mgiza") {
 		        $GIZA = "$_EXTERNAL_BINDIR/mgiza";
+			$_MGIZA = "mgiza";
 		}
 		if (-x "$_EXTERNAL_BINDIR/snt2cooc.out") {
 			$SNT2COOC = "$_EXTERNAL_BINDIR/snt2cooc.out";
