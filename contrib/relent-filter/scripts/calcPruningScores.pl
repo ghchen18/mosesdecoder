@@ -73,7 +73,7 @@ my $CP = "cp";
 my $SED = "sed";
 my $RM = "rm";
 my $SORT_EXEC = "sort";
-my $PRUNE_EXEC = "$prune_bin/calcDivergence";
+# my $PRUNE_EXEC = "$prune_bin/calcDivergence";
 my $SIG_EXEC = "$sig_bin/filter-pt";
 my $FILTER_EXEC = "perl $moses_scripts/filter-model-given-input.pl";
 my $CALC_EMP_EXEC ="perl $prune_scripts/calcEmpiricalDistribution.pl";
@@ -88,7 +88,7 @@ my ($N_PHRASES, $N_PHRASES_TO_PROCESS);
 # main functions
 &prepare();
 &calc_sig_and_counts();
-&calc_div();
+# &calc_div();
 &clear_up();
 
 # (1) preparing data
@@ -188,21 +188,21 @@ sub run_significance_module {
     safesystem("$sig_cmd") or die("ERROR: could not run:\n $sig_cmd");
 }
 
-# (3) calculating divergence
-sub calc_div {
-    print STDERR "(3) calculating relative entropy".`date`;
-    print STDERR "(3.1) calculating empirical distribution".`date`;
-    &calculate_empirical_distribution();
-    print STDERR "(3.2) calculating divergence (this might take a while)".`date`;
-    if($N_PHRASES_TO_PROCESS > $dec_size) {
-       &calculate_divergence_shared("$FILTER_DIR");
-    }
-    else{
-       &calculate_divergence($moses_ini);
-    }
-    print STDERR "(3.3) calculating relative entropy from empirical and divergence distributions".`date`;
-    &calculate_relative_entropy();
-}
+# # (3) calculating divergence
+# sub calc_div {
+#     print STDERR "(3) calculating relative entropy".`date`;
+#     print STDERR "(3.1) calculating empirical distribution".`date`;
+#     &calculate_empirical_distribution();
+#     print STDERR "(3.2) calculating divergence (this might take a while)".`date`;
+#     if($N_PHRASES_TO_PROCESS > $dec_size) {
+#        &calculate_divergence_shared("$FILTER_DIR");
+#     }
+#     else{
+#        &calculate_divergence($moses_ini);
+#     }
+#     print STDERR "(3.3) calculating relative entropy from empirical and divergence distributions".`date`;
+#     &calculate_relative_entropy();
+# }
 
 sub calculate_empirical_distribution {
     my $emp_cmd = "$CALC_EMP_EXEC $COUNT_FILE > $EMP_DIST_FILE";
